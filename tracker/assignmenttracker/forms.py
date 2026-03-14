@@ -1,13 +1,27 @@
 from django import forms
-from .models import Assignment, Subject
+from .models import Assignment
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ['title', 'subject', 'due_date', 'is_major', 'description']
+        fields = ['title', 'subject', 'due_date', 'category', 'is_major']
+        
         widgets = {
-            'due_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500'}),
-            'title': forms.TextInput(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500', 'placeholder': 'e.g., Final Project Prototype'}),
-            'subject': forms.Select(attrs={'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500'}),
-            'description': forms.Textarea(attrs={'rows': 3, 'class': 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500'}),
+            'title': forms.TextInput(attrs={
+                'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 text-lg font-bold placeholder-gray-300',
+                'placeholder': 'e.g., Final Capstone Documentation'
+            }),
+            'subject': forms.Select(attrs={
+                'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 font-bold bg-white'
+            }),
+            'category': forms.Select(attrs={
+                'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 font-bold bg-white'
+            }),
+            'due_date': forms.DateTimeInput(attrs={
+                'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 font-bold',
+                'type': 'datetime-local'
+            }),
+            'is_major': forms.CheckboxInput(attrs={
+                'class': 'w-5 h-5 text-red-600 border-gray-300 rounded focus:ring-red-500'
+            }),
         }

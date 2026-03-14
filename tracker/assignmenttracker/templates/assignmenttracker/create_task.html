@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-[#f4f7f6] min-h-screen p-6">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded shadow-xl border border-gray-200 overflow-hidden">
+            <div class="bg-[#006837] px-6 py-4 flex items-center space-x-3">
+                <h2 class="text-white font-black uppercase tracking-widest text-lg">Add Task</h2>
+            </div>
+            
+            <form method="POST" class="p-8 space-y-8">
+                {% csrf_token %}
+                
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest">Task Description</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest">Select Subject</label>
+                        {{ form.subject }}
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest">Classification</label>
+                        {{ form.category }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest">Submission Deadline</label>
+                        {{ form.due_date }}
+                    </div>
+
+                    <div class="flex items-center space-x-3 self-end pb-2 px-3 bg-red-50/50 rounded border border-dashed border-red-200">
+                        {{ form.is_major }}
+                        <label class="text-[10px] font-black text-red-700 uppercase cursor-pointer">Mark as Major Requirement</label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-8 border-t border-gray-100">
+                    <a href="{% url 'add_assignment' %}" class="text-gray-400 font-bold text-xs uppercase hover:text-red-600 transition-colors">
+                        &larr; Cancel and Return
+                    </a>
+                    <button type="submit" class="bg-[#006837] text-white px-10 py-3 rounded font-black uppercase text-xs tracking-widest hover:bg-green-800 transition-all shadow-lg transform hover:-translate-y-0.5 active:translate-y-0">
+                        Save to Roadmap
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <p class="mt-4 text-center text-[10px] text-gray-400 font-bold uppercase italic">
+            Note: New tasks will appear as "Pending" on your dashboard and requirements list.
+        </p>
+    </div>
+</div>
+{% endblock %}

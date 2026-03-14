@@ -13,6 +13,21 @@ class Assignment(models.Model):
     due_date = models.DateTimeField()
     is_major = models.BooleanField(default=False) # Major Project vs Minor Activity
     description = models.TextField(blank=True)
+    is_completed = models.BooleanField(default=False)
+    CATEGORY_CHOICES = [
+        ('EXAM', 'Exam'),
+        ('PROJECT', 'Project'),
+        ('TEST', 'Test'),
+        ('ASSIGNMENT', 'Assignment'),
+        ('OTHERS', 'Others'),
+    ]
+    category = models.CharField(
+        max_length=20, 
+        choices=CATEGORY_CHOICES, 
+        default='ASSIGNMENT'
+    )
+    # Ensure is_completed exists too
+    is_completed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.subject.name} - {self.title}"
