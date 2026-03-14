@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-gray-200 pb-8">
+        <div>
+            <h1 class="text-4xl font-black text-green-900 tracking-tight">Academic Roadmap</h1>
+            <p class="mt-2 text-lg text-gray-500 font-medium">Solving the information gap for USLS students.</p>
+        </div>
+        
+        <div class="mt-6 md:mt-0">
+            <a href="{% url 'add_assignment' %}" class="inline-flex items-center justify-center px-8 py-4 bg-green-700 hover:bg-green-800 text-white text-lg font-bold rounded-2xl shadow-lg shadow-green-200 transition-all transform hover:-translate-y-1 active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
+                </svg>
+                Add New Task
+            </a>
+        </div>
+    </div>
+
+    <div class="space-y-6">
+        <div class="flex items-center justify-between px-2">
+            <h2 class="text-xl font-bold text-gray-800 uppercase tracking-widest text-sm">Active Requirements</h2>
+            <span class="text-sm font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-100">
+                {{ assignments.count }} Tasks Remaining
+            </span>
+        </div>
+
+        {% for task in assignments %}
+        <div class="relative bg-white rounded-3xl shadow-sm border border-gray-100 hover:border-green-300 transition-all duration-300">
+            <div class="absolute left-0 top-0 bottom-0 w-3 rounded-l-3xl {% if task.is_major %}bg-red-500 animate-pulse{% else %}bg-green-500{% endif %}"></div>
+            
+            <div class="p-6 md:p-8 ml-3 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                
+                <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="text-xs font-black text-gray-400 uppercase tracking-tighter">{{ task.subject.name }}</span>
+                        {% if task.is_major %}
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-md font-black uppercase">Major Requirement</span>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ task.title }}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        {% if task.description %}{{ task.description }}{% else %}No extra details provided.{% endif %}
+                    </p>
+                </div>
+
+                <div class="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-10">
+                    <div class="text-left md:text-right">
+                        <p class="text-xs font-bold text-gray-400 uppercase">Deadline</p>
+                        <p class="text-xl font-black text-gray-800">{{ task.due_date|date:"F d" }}</p>
+                        <p class="text-sm font-bold text-green-600">{{ task.due_date|time:"g:i A" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200 text-center px-6">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800">Everything is clear!</h3>
+            <p class="text-gray-500 max-w-xs mt-2 italic">
+                "Moving away from unreliable tracking methods toward a unified system..."
+            </p>
+            <p class="text-sm text-gray-400 mt-4">No assignments found for your current subjects.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-green-900 p-6 rounded-2xl text-white">
+            <p class="text-green-300 text-xs font-bold uppercase">Academic Well-being</p>
+            <p class="text-lg mt-1 font-medium italic">"Regain control over your demanding schedule."</p>
+        </div>
+        <div class="md:col-span-2 bg-white p-6 rounded-2xl border border-gray-200 flex items-center justify-between">
+            <p class="text-gray-600 font-medium">Use the <span class="text-green-700 font-bold">Add New Task</span> button to centralize every group chat message and notebook entry.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
