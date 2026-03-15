@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Assignment, Subject
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
+from .models import Subject, Task
 from .forms import AssignmentForm
+from django.contrib.auth.models import User
 
 # --- AUTHENTICATION ---
 
@@ -24,96 +25,115 @@ def register_view(request):
         u_name = request.POST.get('username')
         f_name = request.POST.get('full_name')
         p_word = request.POST.get('password')
-        
-        if User.objects.filter(username=u_name).exists():
-            return render(request, 'assignmenttracker/register.html', {'error': 'Student ID already registered!'})
 
-        # Create user and split name for the Dashboard Student Info
-        user = User.objects.create_user(username=u_name, password=p_word)
-        if " " in f_name:
-            user.first_name, user.last_name = f_name.split(" ", 1)
-        else:
-            user.first_name = f_name
-        user.save()
-        return redirect('login')
+        # Check if user already exists
+        if User.objects.filter(username=u_name).exists():
+            return render(request, 'assignmenttracker/register.html', {'error': 'Student ID already registered.'})
+
+        try:
+            # Create user
+            user = User.objects.create_user(username=u_name, password=p_word)
+            
+            # Optional: Store full name
+            if " " in f_name:
+                user.first_name, user.last_name = f_name.split(" ", 1)
+            else:
+                user.first_name = f_name
+            user.save()
+
+            login(request, user)
+            return redirect('dashboard')
+        except Exception as e:
+            return render(request, 'assignmenttracker/register.html', {'error': 'Registration failed. Please try again.'})
+            
     return render(request, 'assignmenttracker/register.html')
 
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-
-# --- DASHBOARD & REQUIREMENTS ---
+# --- DASHBOARD & TASKS ---
 
 @login_required
 def dashboard(request):
-    # assignments.filter(user=request.user) ensures isolation
-    assignments = Assignment.objects.filter(user=request.user, is_completed=False).order_by('due_date')
-    return render(request, 'assignmenttracker/dashboard.html', {'assignments': assignments})
+    # Fetch the data
+    pending = Task.objects.filter(user=request.user, is_done=False).order_by('due_date')
+    
+    # Pass it to the template using the name 'assignments'
+    return render(request, 'assignmenttracker/dashboard.html', {
+        'assignments': pending,  # This MUST match the {% for task in assignments %}
+    })
 
 @login_required
 def add_assignment(request):
-    active_tasks = Assignment.objects.filter(user=request.user, is_completed=False).order_by('due_date')
-    done_tasks = Assignment.objects.filter(user=request.user, is_completed=True).order_by('-id')
+    """This is your REQUIREMENTS LIST page"""
+    active_tasks = Task.objects.filter(user=request.user, is_done=False).order_by('due_date')
+    done_tasks = Task.objects.filter(user=request.user, is_done=True).order_by('-due_date')[:5]
+    
     return render(request, 'assignmenttracker/add_assignment.html', {
-        'active_tasks': active_tasks, 
+        'active_tasks': active_tasks,
         'done_tasks': done_tasks
     })
 
-
-# --- TASK ACTIONS ---
-
 @login_required
 def create_task(request):
-    if request.method == "POST":
+    """This is your FORM page for creating a new task"""
+    if request.method == 'POST':
         form = AssignmentForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.user = request.user  # Attach the student
+            task.user = request.user
             task.save()
-            return redirect('dashboard')
+            # After saving, go back to the REQUIREMENTS LIST
+            return redirect('add_assignment') 
     else:
         form = AssignmentForm()
-        # This is the important part!
-        # It filters the dropdown to ONLY show the user's subjects
         form.fields['subject'].queryset = Subject.objects.filter(user=request.user)
-        if 'subject' in form.fields:
-            form.fields['subject'].queryset = Subject.objects.filter(user=request.user)
-        
+    
+    # This renders the form template, NOT the dashboard
     return render(request, 'assignmenttracker/create_task.html', {'form': form})
 
+# Matches path('mark-done/<int:task_id>/', views.mark_done...)
 @login_required
 def mark_done(request, task_id):
-    # get_object_or_404(..., user=request.user) prevents people from marking others' tasks as done
-    task = get_object_or_404(Assignment, id=task_id, user=request.user)
-    task.is_completed = True
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task.is_done = True
     task.save()
-    return redirect('add_assignment')
+    return redirect('dashboard')
 
+# Matches path('undo/<int:task_id>/', views.undo_task...)
 @login_required
 def undo_task(request, task_id):
-    task = get_object_or_404(Assignment, id=task_id, user=request.user)
-    task.is_completed = False
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task.is_done = False
     task.save()
-    return redirect('add_assignment')
+    return redirect('dashboard')
 
+# --- SUBJECTS ---
+
+# Matches path('subjects/', views.subject_list...)
 @login_required
 def subject_list(request):
-    if request.method == "POST":
-        name = request.POST.get('name')
-        code = request.POST.get('code')
-        days = request.POST.get('days')
-        time = request.POST.get('time')
-        
+    if request.method == 'POST':
         Subject.objects.create(
             user=request.user,
-            name=name,
-            code=code,
-            days=days,
-            time=time
+            code=request.POST.get('code'),
+            name=request.POST.get('name'),
+            days=request.POST.get('days'),
+            start_time=request.POST.get('start_time'),
+            end_time=request.POST.get('end_time'),
+            color=request.POST.get('color', 'bg-green-700')
         )
+        messages.success(request, "Subject added!")
         return redirect('subject_list')
-
-    # Only show subjects belonging to this user
+    
     subjects = Subject.objects.filter(user=request.user)
     return render(request, 'assignmenttracker/subjects.html', {'subjects': subjects})
+
+# Matches path('subjects/drop/<int:subject_id>/', views.drop_subject...)
+@login_required
+def drop_subject(request, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id, user=request.user)
+    subject.delete()
+    messages.info(request, "Subject dropped.")
+    return redirect('subject_list')

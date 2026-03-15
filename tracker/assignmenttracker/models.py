@@ -1,28 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 class Subject(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subjects', null=True)
+    # Added user field to fix the FieldError
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=10)
-    days = models.CharField(max_length=50) # Removed placeholder
-    time = models.TimeField() 
+    days = models.CharField(max_length=20)  # Stores M, T, W, TH, F
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    color = models.CharField(max_length=20, default='bg-green-700')
 
     def __str__(self):
         return f"{self.code} - {self.name}"
 
-class Assignment(models.Model):
-    CATEGORY_CHOICES = [
-        ('PROJECT', 'Project'),
-        ('ASSIGNMENT', 'Assignment'),
-        ('GROUPWORK', 'Groupwork'),
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='assignments')
-    title = models.CharField(max_length=255)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='ASSIGNMENT')
-    is_major = models.BooleanField(default=False)
+class Task(models.Model):
+    # Renamed from Assignment to Task to fix the ImportError
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='tasks')
+    title = models.CharField(max_length=200)
     due_date = models.DateTimeField()
-    is_completed = models.BooleanField(default=False)
-    # ... any other fields you have
+    is_done = models.BooleanField(default=False)
+    
+    CATEGORY_CHOICES = [
+        ('assignment', 'Assignment'),
+        ('quiz', 'Quiz'),
+        ('project', 'Project'),
+        ('exam', 'Exam'),
+    ]
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    is_major = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title

@@ -1,9 +1,9 @@
 from django import forms
-from .models import Assignment
+from .models import Task
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
-        model = Assignment
+        model = Task
         fields = ['title', 'subject', 'due_date', 'category', 'is_major']
         
         widgets = {

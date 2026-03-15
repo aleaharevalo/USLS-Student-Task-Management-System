@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="bg-[#f4f7f6] min-h-screen p-4">
@@ -6,8 +7,10 @@
         
         <div class="flex justify-between items-center bg-white p-4 rounded border border-gray-200 shadow-sm">
             <div>
-                <h2 class="text-xl font-black text-green-900 uppercase tracking-tight">Academic Requirements</h2>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Manage and track your tasks</p>
+                <div class="flex items-center gap-3">
+                    <h2 class="text-xl font-black text-green-900 uppercase tracking-tight">Academic Requirements</h2>
+                </div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Manage and track your tasks</p>
             </div>
             <a href="{% url 'create_task' %}" class="bg-[#006837] hover:bg-green-800 text-white px-6 py-2.5 rounded font-black text-xs uppercase transition-all shadow-md transform hover:scale-105">
                 + Create New Task
@@ -37,6 +40,9 @@
                                     {{ task.subject.name }}
                                 </div>
                                 <div class="mt-2 flex flex-wrap gap-1">
+                                    <span class="{{ task.subject.color|default:'bg-green-700' }} text-white text-[9px] px-1.5 py-0.5 rounded font-black uppercase shadow-sm">
+                                        {{ task.subject.code }}
+                                    </span>
                                     <span class="bg-blue-50 text-blue-700 text-[9px] px-1.5 py-0.5 rounded border border-blue-100 font-black uppercase">
                                         {{ task.get_category_display }}
                                     </span>
@@ -93,7 +99,7 @@
                         <tr class="bg-gray-50/50">
                             <td class="px-6 py-4 align-top w-1/4">
                                 <div class="text-md font-bold text-gray-400 leading-tight">{{ task.subject.name }}</div>
-                                <span class="text-[8px] font-black text-gray-300 uppercase">{{ task.get_category_display }}</span>
+                                <span class="text-[8px] font-black text-gray-300 uppercase">{{ task.subject.code }} | {{ task.get_category_display }}</span>
                             </td>
                             <td class="px-6 py-4 align-top">
                                 <div class="text-md font-bold text-gray-400 line-through leading-tight">{{ task.title }}</div>
