@@ -2,128 +2,182 @@
 {% load static %}
 
 {% block content %}
-<div class="bg-[#f4f7f6] min-h-screen p-4">
-    <div class="max-w-6xl mx-auto space-y-8">
-        
-        <div class="flex justify-between items-center bg-white p-4 rounded border border-gray-200 shadow-sm">
+<div class="bg-[#f4f7f6] min-h-screen p-6" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 50px 50px;">
+    
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end border-b-2 border-[#006837] pb-4 mb-8">
             <div>
-                <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-black text-green-900 uppercase tracking-tight">Academic Requirements</h2>
-                </div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Manage and track your tasks</p>
+                <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter">Tasks</h2>
             </div>
-            <a href="{% url 'create_task' %}" class="bg-[#006837] hover:bg-green-800 text-white px-6 py-2.5 rounded font-black text-xs uppercase transition-all shadow-md transform hover:scale-105">
-                + Create New Task
-            </a>
+            <div class="text-right hidden md:block">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Academic Year 2025-2026 | <span class="text-gray-800">2nd Semester</span></p>
+            </div>
         </div>
 
-        <div class="space-y-3">
-            <div class="flex items-center space-x-2 ml-1">
-                <span class="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span>
-                <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest">Pending Tasks</h3>
-            </div>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
-            <div class="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead class="bg-gray-50 border-b border-gray-200">
-                        <tr class="text-[11px] font-black text-gray-400 uppercase tracking-widest">
-                            <th class="px-6 py-4">Subject</th>
-                            <th class="px-6 py-4">Requirement Details</th>
-                            <th class="px-6 py-4 text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        {% for task in active_tasks %}
-                        <tr class="hover:bg-green-50/30 transition-colors group">
-                            <td class="px-6 py-5 align-top w-1/4">
-                                <div class="text-lg font-black text-[#006837] leading-tight group-hover:text-green-700">
-                                    {{ task.subject.name }}
-                                </div>
-                                <div class="mt-2 flex flex-wrap gap-1">
-                                    <span class="{{ task.subject.color|default:'bg-green-700' }} text-white text-[9px] px-1.5 py-0.5 rounded font-black uppercase shadow-sm">
-                                        {{ task.subject.code }}
-                                    </span>
-                                    <span class="bg-blue-50 text-blue-700 text-[9px] px-1.5 py-0.5 rounded border border-blue-100 font-black uppercase">
-                                        {{ task.get_category_display }}
-                                    </span>
-                                    {% if task.is_major %}
-                                    <span class="bg-red-50 text-red-600 text-[9px] px-1.5 py-0.5 rounded border border-red-100 font-black uppercase">
-                                        Major
-                                    </span>
-                                    {% endif %}
-                                </div>
-                            </td>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden sticky top-6">
+                    <div class="bg-gray-50 px-6 py-3 border-b border-gray-100">
+                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Add Task</h3>
+                    </div>
+                    
+                    <form method="POST" class="p-6 space-y-4">
+                        {% csrf_token %}
+                        
+                        <div>
+                            <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Task Description</label>
+                            {{ form.title }}
+                        </div>
 
-                            <td class="px-6 py-5 align-top">
-                                <div class="text-lg font-bold text-gray-800 leading-tight">
-                                    {{ task.title }}
-                                </div>
-                                <div class="text-[11px] font-black text-gray-400 mt-1 uppercase tracking-tighter">
-                                    Deadline: <span class="text-gray-600">{{ task.due_date|date:"M d, Y" }} | {{ task.due_date|time:"g:i A" }}</span>
-                                </div>
-                            </td>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Subject</label>
+                                {{ form.subject }}
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Classification</label>
+                                {{ form.category }}
+                            </div>
+                        </div>
 
-                            <td class="px-6 py-5 text-center align-middle">
-                                <a href="{% url 'mark_done' task.id %}" 
-                                   class="inline-block border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-2 rounded-md text-[11px] font-black uppercase transition-all shadow-sm active:scale-95">
-                                    Mark Done
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3" class="text-center py-16">
-                                <p class="text-gray-300 font-black uppercase text-xs italic">No pending requirements found.</p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <div>
+                            <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Submission Deadline</label>
+                            {{ form.due_date }}
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-3 bg-red-50/40 border border-dashed border-red-200 rounded">
+                            {{ form.is_major }}
+                            <label class="text-[9px] font-black text-red-700 uppercase cursor-pointer leading-none tracking-tight">Mark as Important</label>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-[#006837] text-white font-black uppercase text-[10px] rounded shadow-sm hover:bg-green-800 transition-all tracking-widest active:scale-95">
+                            Save Task
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 space-y-10">
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-8 py-5 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-sm font-black text-[#001a41] uppercase tracking-widest">Pending Tasks </h3>
+                        <span class="text-[10px] font-black text-red-600 uppercase tracking-tighter">{{ active_tasks.count }} Pending</span>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50/50 border-b border-gray-100">
+                                <tr class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                    <th class="px-8 py-3">Tasks</th>
+                                    <th class="px-4 py-3 text-center">Type</th> <th class="px-8 py-3 text-center">Deadline</th>
+                                    <th class="px-8 py-3 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                {% for task in active_tasks %}
+                                <tr class="hover:bg-green-50/10 transition-colors group">
+                                    <td class="px-8 py-6">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-[10px] font-mono font-black uppercase tracking-tighter {{ task.subject.color|cut:'bg-'|add:'text-'|default:'text-[#006837]' }}">
+                                                {{ task.subject.code }}
+                                            </span>
+                                            {% if task.is_major %}
+                                            <span class="text-[7px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-black uppercase italic tracking-tighter border border-red-200">
+                                                Important
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                        <span class="text-sm font-black text-gray-800 uppercase block tracking-tight leading-tight">
+                                            {{ task.title }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-4 py-6 text-center">
+                                        <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest border border-gray-200 px-2 py-1 rounded bg-gray-50">
+                                            {{ task.get_category_display }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-8 py-6 text-center">
+                                        <span class="text-xs font-black text-gray-700 uppercase block leading-none">
+                                            {{ task.due_date|date:"M d" }}
+                                        </span>
+                                        <span class="text-[9px] text-gray-400 font-black italic mt-1 block">
+                                            {{ task.due_date|time:"g:i A" }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-8 py-6 text-right">
+                                        <a href="{% url 'mark_done' task.id %}" 
+                                           class="bg-[#006837] text-white px-5 py-2 rounded text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 inline-block shadow-sm">
+                                            Clear
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-20">
+                                        <p class="text-gray-300 font-black uppercase text-xs italic tracking-[0.3em]">No Pending Requirements</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-center">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
+                    <span class="relative px-6 bg-[#f4f7f6] text-[10px] font-black text-gray-400 uppercase tracking-[0.5em]">Finished Tasks</span>
+                </div>
+
+                <div class="bg-white/60 rounded-lg border border-gray-100 overflow-hidden">
+                    <table class="w-full text-left">
+                        <tbody class="divide-y divide-gray-50">
+                            {% for task in done_tasks %}
+                            <tr class="grayscale opacity-60">
+                                <td class="px-8 py-4">
+                                    <span class="text-[8px] font-black text-gray-400 uppercase">{{ task.subject.code }} <span class="text-[#006837] ml-2">✓ Settled</span></span>
+                                    <span class="text-xs font-black text-gray-400 uppercase block line-through tracking-tight">{{ task.title }}</span>
+                                </td>
+                                <td class="px-8 py-4 text-right">
+                                    <a href="{% url 'undo_task' task.id %}" class="text-[9px] font-black text-blue-500 hover:text-[#006837] uppercase tracking-widest">Re-open Task</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <div class="relative py-4">
-            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full border-t border-gray-300"></div>
-            </div>
-            <div class="relative flex justify-center">
-                <span class="px-3 bg-[#f4f7f6] text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Completed Items</span>
-            </div>
-        </div>
-
-        <div class="space-y-3 opacity-80">
-            <div class="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <tbody class="divide-y divide-gray-50">
-                        {% for task in done_tasks %}
-                        <tr class="bg-gray-50/50">
-                            <td class="px-6 py-4 align-top w-1/4">
-                                <div class="text-md font-bold text-gray-400 leading-tight">{{ task.subject.name }}</div>
-                                <span class="text-[8px] font-black text-gray-300 uppercase">{{ task.subject.code }} | {{ task.get_category_display }}</span>
-                            </td>
-                            <td class="px-6 py-4 align-top">
-                                <div class="text-md font-bold text-gray-400 line-through leading-tight">{{ task.title }}</div>
-                                <div class="text-[9px] font-bold text-green-600 uppercase italic">Settled</div>
-                            </td>
-                            <td class="px-6 py-4 text-center align-middle">
-                                <a href="{% url 'undo_task' task.id %}" 
-                                   class="text-[10px] font-black text-blue-400 hover:text-blue-700 uppercase tracking-tighter hover:underline">
-                                    Re-open Task
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3" class="text-center py-8 text-gray-300 text-[10px] font-bold uppercase italic">
-                                History is empty.
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 </div>
+
+<style>
+    input[type="text"], select, input[type="datetime-local"] {
+        width: 100% !important;
+        padding: 10px !important;
+        background-color: #f9fafb !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 4px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        color: #374151 !important;
+        outline: none !important;
+        text-transform: uppercase !important;
+        transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, select:focus, input[type="datetime-local"]:focus {
+        border-color: #006837 !important;
+    }
+
+    input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #006837;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}

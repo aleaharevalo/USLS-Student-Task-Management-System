@@ -31,7 +31,9 @@
                 <div class="flex space-x-1 text-[10px] font-bold uppercase text-purple-900 whitespace-nowrap overflow-x-auto">
                     <a href="{% url 'dashboard' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'dashboard' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Dashboard</a>
                     <a href="{% url 'subject_list' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'subject_list' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Subjects</a>
-                    <a href="{% url 'add_assignment' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'add_assignment' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Requirements</a>
+                    <a href="{% url 'schedule' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'schedule' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Schedule</a>
+                    <a href="{% url 'add_assignment' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'add_assignment' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Tasks</a>
+                    
                 </div>
 
                 <div class="flex text-[10px] font-bold uppercase">
@@ -48,7 +50,7 @@
 
     <div class="bg-white px-6 py-2 border-b border-gray-100 shadow-sm">
         <p class="text-[11px] font-black text-black uppercase">
-            Welcome, {{ user.first_name }} {{ user.last_name|default:"ALEAH JELEIN CORDOVA AREVALO" }} ({{ user.username }}) 
+            Welcome, {{ user.first_name }} {{ user.last_name|default:"ALEAH JELEIN CORDOVA AREVALO" }} 
         </p>
     </div>
 

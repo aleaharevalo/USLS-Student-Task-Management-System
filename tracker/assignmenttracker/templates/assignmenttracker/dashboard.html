@@ -1,94 +1,153 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="bg-gray-100 min-h-screen p-4">
-    <div class="max-w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        <div class="space-y-6">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-300 overflow-hidden">
-                <div class="px-4 py-2 border-b border-gray-200 bg-gray-50">
-                    <h3 class="font-bold text-lg text-gray-800 uppercase tracking-tight">Student Information</h3>
-                </div>
-                <div class="p-4 flex gap-6">
-                    <div class="flex-1 text-sm space-y-1">
-                        <p><span class="font-bold w-32 inline-block">Student ID No.</span>: <span class="text-blue-900 font-bold">1617074</span></p>
-                        <p><span class="font-bold w-32 inline-block">Student Name</span>: <span class="text-gray-700 font-bold">{{ user.last_name|upper }}, {{ user.first_name|upper }}</span></p>
-                        <p><span class="font-bold w-32 inline-block">Program/Degree</span>: <span class="text-gray-700">BS IN COMPUTER SCIENCE</span></p>
-                        <p><span class="font-bold w-32 inline-block">Year Level</span>: <span class="text-red-600 font-bold">Fourth Year</span></p>
-                        <p><span class="font-bold w-32 inline-block">Student Status</span>: <span class="text-green-700 font-bold italic">ENROLLED</span></p>
-                    </div>
-                    <div class="w-24 h-24 border border-gray-300 bg-gray-50 flex items-center justify-center rounded shadow-inner">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
+<div class="bg-[#f4f7f6] min-h-screen p-6" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 50px 50px;">
+    
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end border-b-2 border-[#006837] pb-4 mb-8">
+            <div>
+                <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter">Dashboard</h2>
+            </div>
+            <div class="text-right hidden md:block">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Academic Year 2025-2026 | <span class="text-gray-800">2nd Semester</span></p>
             </div>
         </div>
 
-        <div class="space-y-6">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-300 overflow-hidden">
-                <div class="px-4 py-2 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                    <h3 class="font-bold text-lg text-gray-800 uppercase tracking-tight">Active Requirements</h3>
-                    <span class="bg-green-100 text-green-800 text-[10px] px-2 py-1 rounded font-black uppercase">
-                        {{ assignments.count }} Pending
-                    </span>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded shadow-sm border border-gray-200 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                        </svg>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-3 border-b border-gray-100">
+                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Student's Information</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-[#006837] text-white flex items-center justify-center rounded text-xl font-black shadow-inner">
+                                {{ user.first_name|first }}{{ user.last_name|first }}
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-black text-gray-800 uppercase leading-none">{{ user.last_name }}, {{ user.first_name }}</h4>
+                                <p class="text-[10px] font-mono font-bold text-gray-400 mt-1 uppercase tracking-tighter">ID: 1617074</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between border-b border-gray-50 pb-2">
+                                <span class="text-[9px] font-black text-gray-400 uppercase">Degree Program</span>
+                                <span class="text-[10px] font-bold text-gray-700 uppercase">BS Computer Science</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-50 pb-2">
+                                <span class="text-[9px] font-black text-gray-400 uppercase">Year Level</span>
+                                <span class="text-[10px] font-bold text-gray-600 uppercase">4th Year</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-0">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-gray-50 text-gray-500 uppercase text-[10px] border-b border-gray-200">
-                            <tr>
-                                <th class="px-4 py-3">Subject</th>
-                                <th class="px-4 py-3">Requirement Details</th>
-                                <th class="px-4 py-3 text-right">Action</th>
+
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-3 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Subjects</h3>
+                        <span class="text-[9px] font-black text-[#006837] bg-green-50 px-2 py-0.5 rounded border border-green-100">{{ subjects.count }} Subjects</span>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        {% for subject in subjects %}
+                        <div class="border-l-4 border-[#006837] bg-[#f8fafc] p-3 rounded-r transition-all hover:shadow-md hover:bg-white border-y border-r border-gray-100">
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-mono font-black text-[#006837]">{{ subject.code }}</span>
+                                <span class="text-[8px] font-black text-gray-400 bg-white px-1 border border-gray-100 rounded uppercase tracking-tighter">{{ subject.days }}</span>
+                            </div>
+                            <p class="text-[10px] font-bold text-gray-700 uppercase truncate mt-1">{{ subject.name }}</p>
+                            <p class="text-[9px] text-gray-400 font-black mt-1 uppercase italic">
+                                {{ subject.start_time|time:"g:i A" }} - {{ subject.end_time|time:"g:i A" }}
+                            </p>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-8">
+                            <p class="text-[10px] text-gray-400 font-black uppercase italic tracking-widest">No Enrolled Subjects</p>
+                            <a href="{% url 'subject_list' %}" class="text-[9px] text-[#006837] underline font-black uppercase mt-2 inline-block">Update Subjects</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-white border-b-2 border-[#006837] flex justify-between items-center">
+                        <div>
+                            <h3 class="text-xs font-black text-gray-800 uppercase tracking-widest leading-none">Pending Tasks</h3>
+                        </div>
+                        <span class="bg-red-50 text-red-700 text-[9px] px-2 py-1 rounded-full border border-red-100 font-black uppercase tracking-tighter">
+                            {{ assignments.count }} Outstanding
+                        </span>
+                    </div>
+                    
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100">
+                                <th class="px-6 py-4 bg-gray-50/50">Course</th>
+                                <th class="px-6 py-4 bg-gray-50/50">Requirement</th>
+                                <th class="px-6 py-4 text-center bg-gray-50/50">Deadline</th>
+                                <th class="px-6 py-4 text-right bg-gray-50/50">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             {% for task in assignments %}
-                            <tr class="hover:bg-green-50/30 transition-colors group">
-                                <td class="px-4 py-4 align-top">
-                                    <span class="font-black text-green-900 block leading-tight">{{ task.subject.name }}</span>
+                            <tr class="hover:bg-yellow-50/20 transition-colors group">
+                                <td class="px-6 py-4">
+                                    <span class="{{ s.color }} text-[10px] font-mono font-black text-[#006837]">{{ task.subject.code }}</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-xs font-bold text-gray-800 uppercase tracking-tight block">{{ task.title }}</span>
                                     {% if task.is_major %}
-                                    <span class="inline-block mt-1 bg-red-100 text-red-700 text-[9px] px-1 rounded font-bold uppercase animate-pulse">Major</span>
+                                    <span class="text-[8px] font-black text-red-600 uppercase tracking-tighter italic inline-flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
+                                       Important
+                                    </span>
                                     {% endif %}
                                 </td>
-                                <td class="px-4 py-4 align-top">
-                                    <span class="text-gray-900 font-medium">{{ task.title }}</span>
-                                    <p class="text-[10px] text-gray-400 font-bold mt-1 uppercase">
-                                        Deadline: {{ task.due_date|date:"M d, Y" }} | {{ task.due_date|time:"g:i A" }}
-                                    </p>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="text-[10px] font-bold text-gray-600 uppercase">{{ task.due_date|date:"M d" }}</span>
+                                    <span class="text-[9px] block text-gray-400 font-black">{{ task.due_date|time:"g:i A" }}</span>
                                 </td>
-                                <td class="px-4 py-4 text-right align-middle">
-                                    <a href="{% url 'mark_done' task.id %}" 
-                                       class="inline-block bg-white border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded text-[10px] font-black uppercase transition-all shadow-sm">
-                                        Mark Done
+                                <td class="px-6 py-4 text-right">
+                                    <a href="{% url 'mark_done' task.id %}" class="bg-[#006837] text-white px-4 py-1.5 rounded text-[9px] font-black uppercase hover:bg-green-800 transition-all shadow-sm active:transform active:scale-95">
+                                        Clear
                                     </a>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center py-12">
-                                    <div class="text-gray-300 mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-gray-400 font-bold uppercase text-xs">All requirements are settled.</p>
-                                    <a href="{% url 'add_assignment' %}" class="text-blue-600 text-[10px] font-black underline mt-2 inline-block uppercase italic">Update records here</a>
+                                <td colspan="4" class="text-center py-20">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-200 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">All records are currently settled.</p>
+                                    <a href="{% url 'create_task' %}" class="text-[9px] text-[#006837] underline font-black uppercase mt-2 inline-block">Add New Requirement</a>
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200 text-right">
-                    <a href="{% url 'add_assignment' %}" class="text-xs font-black text-purple-900 hover:text-green-800 transition-colors uppercase">
-                        View Full History &rarr;
-                    </a>
+
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 text-right">
+                        <a href="{% url 'add_assignment' %}" class="text-[10px] font-black text-[#006837] hover:underline uppercase tracking-widest flex items-center justify-end gap-2">
+                            View Historical Transcript
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 {% endblock %}

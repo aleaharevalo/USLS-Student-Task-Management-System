@@ -2,64 +2,67 @@
 {% load static %}
 
 {% block content %}
-<div class="bg-[#f4f7f6] min-h-screen p-4">
-    <div class="max-w-6xl mx-auto space-y-8">
-        
-        <div class="flex justify-between items-center bg-white p-4 rounded border border-gray-200 shadow-sm">
+<div class="bg-[#f4f7f6] min-h-screen p-6" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 50px 50px;">
+    
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end border-b-2 border-[#006837] pb-4 mb-8">
             <div>
-                <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-black text-green-900 uppercase tracking-tight">Subject Enrollment</h2>
-                </div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Manage your academic course load and schedule</p>
+                <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter">Subject Enrollment</h2>
+            </div>
+            <div class="text-right hidden md:block">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Academic Year 2025-2026 | <span class="text-gray-800">2nd Semester</span></p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-1">
-                <div class="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
-                    <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
-                        <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest">Enroll New Subject</h3>
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-3 border-b border-gray-100">
+                        <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Add Subject</h3>
                     </div>
                     <form method="POST" class="p-6 space-y-4">
                         {% csrf_token %}
                         <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 ml-1">Course Code</label>
-                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-sm font-bold text-gray-700 outline-none focus:border-green-600 transition-colors" placeholder="e.g. IT211" required>
+                            <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Course Code</label>
+                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 ml-1">Subject Title</label>
-                            <input type="text" name="name" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-sm font-bold text-gray-700 outline-none focus:border-green-600 transition-colors" placeholder="e.g. Web Development" required>
+                            <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Subject Title</label>
+                            <input type="text" name="name" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" required>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 ml-1">Days</label>
                                 <input type="hidden" name="days" id="daysInput" value="">
-                                <div class="flex flex-wrap gap-1">
-                                    <button type="button" onclick="toggleDay('M', this)" class="w-8 h-8 rounded border-2 border-gray-100 text-gray-400 font-black text-[10px] flex items-center justify-center hover:border-green-600 transition-all uppercase">M</button>
-                                    <button type="button" onclick="toggleDay('T', this)" class="w-8 h-8 rounded border-2 border-gray-100 text-gray-400 font-black text-[10px] flex items-center justify-center hover:border-green-600 transition-all uppercase">T</button>
-                                    <button type="button" onclick="toggleDay('W', this)" class="w-8 h-8 rounded border-2 border-gray-100 text-gray-400 font-black text-[10px] flex items-center justify-center hover:border-green-600 transition-all uppercase">W</button>
-                                    <button type="button" onclick="toggleDay('TH', this)" class="w-8 h-8 rounded border-2 border-gray-100 text-gray-400 font-black text-[10px] flex items-center justify-center hover:border-green-600 transition-all uppercase">TH</button>
-                                    <button type="button" onclick="toggleDay('F', this)" class="w-8 h-8 rounded border-2 border-gray-100 text-gray-400 font-black text-[10px] flex items-center justify-center hover:border-green-600 transition-all uppercase">F</button>
-                                </div>
+                                <div>
+    <label class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1 tracking-widest">Days</label>
+    <input type="hidden" name="days" id="daysInput" value="">
+    <div class="flex flex-wrap gap-1">
+        <button type="button" onclick="toggleDay('M', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">M</button>
+        <button type="button" onclick="toggleDay('T', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">T</button>
+        <button type="button" onclick="toggleDay('W', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">W</button>
+        <button type="button" onclick="toggleDay('TH', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">TH</button>
+        <button type="button" onclick="toggleDay('F', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">F</button>
+    </div>
+</div>
                             </div>
                             <div>
-                                <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 ml-1">Period</label>
-                                <input type="time" name="start_time" class="w-full p-2 bg-gray-50 border border-gray-200 rounded text-xs font-bold mb-1" required>
-                                <input type="time" name="end_time" class="w-full p-2 bg-gray-50 border border-gray-200 rounded text-xs font-bold" required>
+                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Period</label>
+                                <input type="time" name="start_time" class="w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold mb-1" required>
+                                <input type="time" name="end_time" class="w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold" required>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2 ml-1">Identify Color</label>
+                            <label class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1 tracking-widest">Legend Color</label>
                             <input type="hidden" name="color" id="selectedColor" value="bg-green-700">
-                            <div class="flex flex-wrap gap-2 p-3 bg-gray-50 rounded border border-gray-100">
-                                <button type="button" onclick="selectColor('bg-green-700', this)" class="color-btn w-5 h-5 rounded-full bg-green-700 ring-offset-2 ring-2 ring-green-900"></button>
-                                <button type="button" onclick="selectColor('bg-blue-600', this)" class="color-btn w-5 h-5 rounded-full bg-blue-600"></button>
-                                <button type="button" onclick="selectColor('bg-red-600', this)" class="color-btn w-5 h-5 rounded-full bg-red-600"></button>
-                                <button type="button" onclick="selectColor('bg-purple-600', this)" class="color-btn w-5 h-5 rounded-full bg-purple-600"></button>
-                                <button type="button" onclick="selectColor('bg-orange-500', this)" class="color-btn w-5 h-5 rounded-full bg-orange-500"></button>
+                            <div class="flex flex-wrap gap-2 p-2.5 bg-gray-50 rounded border border-gray-100">
+                                <button type="button" onclick="selectColor('bg-green-700', this)" class="color-btn w-4 h-4 rounded-full bg-green-700 ring-offset-2 ring-1 ring-green-900"></button>
+                                <button type="button" onclick="selectColor('bg-blue-600', this)" class="color-btn w-4 h-4 rounded-full bg-blue-600"></button>
+                                <button type="button" onclick="selectColor('bg-red-600', this)" class="color-btn w-4 h-4 rounded-full bg-red-600"></button>
+                                <button type="button" onclick="selectColor('bg-purple-600', this)" class="color-btn w-4 h-4 rounded-full bg-purple-600"></button>
+                                <button type="button" onclick="selectColor('bg-orange-500', this)" class="color-btn w-4 h-4 rounded-full bg-orange-500"></button>
                             </div>
                         </div>
-                        <button type="submit" class="w-full py-3 bg-[#006837] text-white font-black uppercase text-xs rounded shadow hover:bg-green-800 transition-all">
+                        <button type="submit" class="w-full py-3 bg-[#006837] text-white font-black uppercase text-[10px] rounded shadow-sm hover:bg-green-800 transition-all tracking-widest">
                             Confirm Enrollment
                         </button>
                     </form>
@@ -67,33 +70,43 @@
             </div>
 
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white rounded border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-white border-b-2 border-[#006837] flex justify-between items-center">
+                        <div>
+                            <h3 class="text-xs font-black text-gray-800 uppercase tracking-widest leading-none">Subjects</h3>
+                        </div>
+                        <span class="bg-green-50 text-[#006837] text-[9px] px-2 py-1 rounded-full border border-green-100 font-black uppercase tracking-tighter">
+                            {{ subjects.count }} Subjects
+                        </span>
+                    </div>
+                    
                     <table class="w-full text-left">
-                        <thead class="bg-gray-50 border-b border-gray-200">
-                            <tr class="text-[11px] font-black text-gray-400 uppercase tracking-widest">
-                                <th class="px-6 py-4">Course Info</th>
-                                <th class="px-6 py-4 text-center">Action</th>
+                        <thead>
+                            <tr class="text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100">
+                                <th class="px-6 py-4 bg-gray-50/50">Code</th>
+                                <th class="px-6 py-4 bg-gray-50/50">Subject Title</th>
+                                <th class="px-6 py-4 text-center bg-gray-50/50">Schedule</th>
+                                <th class="px-6 py-4 text-right bg-gray-50/50">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             {% for s in subjects %}
-                            <tr class="hover:bg-green-50/30 transition-colors group">
+                            <tr class="hover:bg-green-50/20 transition-colors group">
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <span class="{{ s.color }} text-white text-[9px] px-2 py-0.5 rounded font-black uppercase shadow-sm">
-                                            {{ s.code }}
-                                        </span>
-                                        <div class="text-md font-black text-[#006837] uppercase tracking-tight group-hover:text-green-700">
-                                            {{ s.name }}
-                                        </div>
-                                    </div>
-                                    <div class="text-[10px] font-bold text-gray-400 mt-1 uppercase ml-1">
-                                        {{ s.days }} | {{ s.start_time|time:"h:i A" }} - {{ s.end_time|time:"h:i A" }}
-                                    </div>
+                                    <span class="{{ s.color }} text-white text-[8px] px-2 py-0.5 rounded font-black uppercase shadow-sm">
+                                        {{ s.code }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-xs font-bold text-gray-800 uppercase tracking-tight block">{{ s.name }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
+                                    <span class="text-[10px] font-bold text-gray-600 uppercase block">{{ s.days }}</span>
+                                    <span class="text-[9px] block text-gray-400 font-black">{{ s.start_time|time:"g:i A" }} - {{ s.end_time|time:"g:i A" }}</span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
                                     <a href="{% url 'drop_subject' s.id %}" 
-                                       class="inline-block border-2 border-red-100 text-red-400 hover:border-red-500 hover:text-red-500 px-4 py-1.5 rounded text-[10px] font-black uppercase transition-all"
+                                       class="inline-block border border-red-100 text-red-400 hover:bg-red-600 hover:text-white px-3 py-1 rounded text-[9px] font-black uppercase transition-all shadow-sm active:transform active:scale-95"
                                        onclick="return confirm('Drop this subject?')">
                                         Drop
                                     </a>
@@ -101,58 +114,13 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="2" class="text-center py-12 text-gray-300 font-black uppercase text-[10px] italic">No subjects enrolled.</td>
+                                <td colspan="4" class="text-center py-16">
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest italic">Enrollment Empty</p>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-
-                <div class="bg-white rounded border border-gray-200 shadow-sm p-6">
-                    <div class="flex items-center space-x-2 mb-6">
-                        <span class="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span>
-                        <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest">Weekly Time Grid</h3>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <div class="min-w-[600px] grid grid-cols-6 border-t border-l border-gray-200">
-                            <div class="col-span-1 bg-gray-50 border-r border-b border-gray-200">
-                                <div class="h-10 border-b border-gray-200"></div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">07:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">08:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">09:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">10:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">11:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">12:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">01:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">02:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">03:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">04:00</div>
-                                <div class="h-16 flex items-center justify-center text-[9px] font-bold text-gray-400 border-b border-gray-100">05:00</div>
-                            </div>
-                            
-                            <div class="col-span-1 relative border-r border-b border-gray-200">
-                                <div class="h-10 flex items-center justify-center text-[10px] font-black text-green-900 bg-gray-50/50 border-b border-gray-200">MON</div>
-                                <div id="day-col-1" class="relative h-[704px]"></div>
-                            </div>
-                            <div class="col-span-1 relative border-r border-b border-gray-200">
-                                <div class="h-10 flex items-center justify-center text-[10px] font-black text-green-900 bg-gray-50/50 border-b border-gray-200">TUE</div>
-                                <div id="day-col-2" class="relative h-[704px]"></div>
-                            </div>
-                            <div class="col-span-1 relative border-r border-b border-gray-200">
-                                <div class="h-10 flex items-center justify-center text-[10px] font-black text-green-900 bg-gray-50/50 border-b border-gray-200">WED</div>
-                                <div id="day-col-3" class="relative h-[704px]"></div>
-                            </div>
-                            <div class="col-span-1 relative border-r border-b border-gray-200">
-                                <div class="h-10 flex items-center justify-center text-[10px] font-black text-green-900 bg-gray-50/50 border-b border-gray-200">THU</div>
-                                <div id="day-col-4" class="relative h-[704px]"></div>
-                            </div>
-                            <div class="col-span-1 relative border-r border-b border-gray-200">
-                                <div class="h-10 flex items-center justify-center text-[10px] font-black text-green-900 bg-gray-50/50 border-b border-gray-200">FRI</div>
-                                <div id="day-col-5" class="relative h-[704px]"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -166,65 +134,19 @@
         if (i > -1) { 
             selectedDays.splice(i, 1); 
             el.classList.remove('bg-[#006837]', 'text-white', 'border-[#006837]');
-            el.classList.add('text-gray-400', 'border-gray-100');
+            el.classList.add('text-gray-400', 'border-gray-200');
         } else { 
             selectedDays.push(day); 
             el.classList.add('bg-[#006837]', 'text-white', 'border-[#006837]');
-            el.classList.remove('text-gray-400', 'border-gray-100');
+            el.classList.remove('text-gray-400', 'border-gray-200');
         }
         document.getElementById('daysInput').value = selectedDays.join('');
     }
 
     function selectColor(c, el) {
         document.getElementById('selectedColor').value = c;
-        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-2', 'ring-green-900'));
-        el.classList.add('ring-2', 'ring-offset-2', 'ring-green-900');
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-1', 'ring-offset-2', 'ring-green-900'));
+        el.classList.add('ring-1', 'ring-offset-2', 'ring-green-900');
     }
-
-    window.onload = function() {
-        const subjects = [
-            {% for s in subjects %}
-            { 
-                code: "{{ s.code }}", 
-                days: "{{ s.days }}", 
-                start: "{{ s.start_time|time:'H:i' }}", 
-                end: "{{ s.end_time|time:'H:i' }}", 
-                color: "{{ s.color }}" 
-            },
-            {% endfor %}
-        ];
-        
-        const dayMap = { 'M': 1, 'T': 2, 'W': 3, 'TH': 4, 'F': 5 };
-        const rowHeight = 64; 
-        const gridStartHour = 7; 
-
-        subjects.forEach(s => {
-            if (!s.start || !s.end) return;
-            const startParts = s.start.split(':');
-            const endParts = s.end.split(':');
-            const startTotal = (parseInt(startParts[0]) * 60) + parseInt(startParts[1]);
-            const endTotal = (parseInt(endParts[0]) * 60) + parseInt(endParts[1]);
-            
-            const top = (startTotal - (gridStartHour * 60)) * (rowHeight / 60);
-            const height = (endTotal - startTotal) * (rowHeight / 60);
-            
-            let daysToProcess = s.days;
-            let activeDays = [];
-            if (daysToProcess.includes('TH')) { activeDays.push('TH'); daysToProcess = daysToProcess.replace('TH',''); }
-            activeDays = [...activeDays, ...daysToProcess.split('')];
-
-            activeDays.forEach(d => {
-                const id = dayMap[d];
-                if(id) {
-                    const block = document.createElement('div');
-                    block.className = `absolute left-0.5 right-0.5 p-1 rounded text-[7px] flex items-center justify-center font-black text-white shadow-sm overflow-hidden z-10 leading-none text-center border border-white/20 ${s.color}`;
-                    block.style.top = top + 'px';
-                    block.style.height = (height - 1) + 'px';
-                    block.innerHTML = s.code;
-                    document.getElementById('day-col-'+id).appendChild(block);
-                }
-            });
-        });
-    };
 </script>
 {% endblock %}
