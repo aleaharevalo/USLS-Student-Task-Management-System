@@ -42,7 +42,7 @@ def register_view(request):
             user.save()
 
             login(request, user)
-            return redirect('dashboard')
+            return redirect('login')
         except Exception as e:
             return render(request, 'assignmenttracker/register.html', {'error': 'Registration failed. Please try again.'})
             
