@@ -24,7 +24,7 @@
                         {% csrf_token %}
                         <div>
                             <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Course Code</label>
-                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" required>
+                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" placeholder="e.g. IT-201" required>
                         </div>
                         <div>
                             <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Subject Title</label>
@@ -32,23 +32,21 @@
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
+                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1 tracking-widest">Days</label>
                                 <input type="hidden" name="days" id="daysInput" value="">
-                                <div>
-    <label class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1 tracking-widest">Days</label>
-    <input type="hidden" name="days" id="daysInput" value="">
-    <div class="flex flex-wrap gap-1">
-        <button type="button" onclick="toggleDay('M', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">M</button>
-        <button type="button" onclick="toggleDay('T', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">T</button>
-        <button type="button" onclick="toggleDay('W', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">W</button>
-        <button type="button" onclick="toggleDay('TH', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">TH</button>
-        <button type="button" onclick="toggleDay('F', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">F</button>
-    </div>
-</div>
+                                <div class="flex flex-wrap gap-1">
+                                    <button type="button" onclick="toggleDay('M', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">M</button>
+                                    <button type="button" onclick="toggleDay('T', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">T</button>
+                                    <button type="button" onclick="toggleDay('W', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">W</button>
+                                    <button type="button" onclick="toggleDay('TH', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">TH</button>
+                                    <button type="button" onclick="toggleDay('F', this)" class="w-7 h-7 rounded border border-gray-200 text-gray-400 font-black text-[9px] flex items-center justify-center hover:border-green-600 transition-all uppercase">F</button>
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Period</label>
-                                <input type="time" name="start_time" class="w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold mb-1" required>
-                                <input type="time" name="end_time" class="w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold" required>
+                                <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Period </label>
+                                <input type="time" name="start_time" min="07:00" max="18:00" step="1800" class="time-limit w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold mb-1" required>
+                                <input type="time" name="end_time" min="07:00" max="18:00" step="1800" class="time-limit w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold" required>
+                                <p class="text-[8px] text-gray-400 mt-1">*Only 00 and 30 minutes</p>
                             </div>
                         </div>
                         <div>
@@ -108,7 +106,7 @@
                                     <a href="{% url 'drop_subject' s.id %}" 
                                        class="inline-block border border-red-100 text-red-400 hover:bg-red-600 hover:text-white px-3 py-1 rounded text-[9px] font-black uppercase transition-all shadow-sm active:transform active:scale-95"
                                        onclick="return confirm('Drop this subject?')">
-                                        Drop
+                                         Drop
                                     </a>
                                 </td>
                             </tr>
@@ -128,6 +126,7 @@
 </div>
 
 <script>
+    // --- Day Toggle Logic ---
     let selectedDays = [];
     function toggleDay(day, el) {
         const i = selectedDays.indexOf(day);
@@ -140,13 +139,43 @@
             el.classList.add('bg-[#006837]', 'text-white', 'border-[#006837]');
             el.classList.remove('text-gray-400', 'border-gray-200');
         }
+        const order = ["M", "T", "W", "TH", "F"];
+        selectedDays.sort((a, b) => order.indexOf(a) - order.indexOf(b));
         document.getElementById('daysInput').value = selectedDays.join('');
     }
 
+    // --- Color Selection Logic ---
     function selectColor(c, el) {
         document.getElementById('selectedColor').value = c;
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-1', 'ring-offset-2', 'ring-green-900'));
         el.classList.add('ring-1', 'ring-offset-2', 'ring-green-900');
     }
+
+    // --- Time Constraint Logic (7AM-6PM & 0/30 Minutes Only) ---
+    document.querySelectorAll('.time-limit').forEach(input => {
+        input.addEventListener('change', function() {
+            const time = this.value;
+            if (!time) return;
+
+            const parts = time.split(':');
+            const hour = parseInt(parts[0]);
+            const minute = parseInt(parts[1]);
+
+            // Range validation (7:00 AM to 6:00 PM)
+            const isTooEarly = hour < 7;
+            const isTooLate = (hour > 15) || (hour === 15 && minute > 0);
+
+            // Increment validation (Must be :00 or :30)
+            const isInvalidIncrement = (minute !== 0 && minute !== 30);
+
+            if (isTooEarly || isTooLate) {
+                alert("Restricted: Schedule must be between 7:00 AM and 5:00 PM.");
+                this.value = ""; 
+            } else if (isInvalidIncrement) {
+                alert("Restricted: Minutes must be 00 or 30 (e.g., 8:00 or 8:30).");
+                this.value = ""; 
+            }
+        });
+    });
 </script>
 {% endblock %}
