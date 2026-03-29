@@ -7,8 +7,6 @@ from .models import Subject, Task
 from .forms import AssignmentForm
 from django.contrib.auth.models import User
 
-# --- AUTHENTICATION ---
-
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -26,15 +24,12 @@ def register_view(request):
         f_name = request.POST.get('full_name')
         p_word = request.POST.get('password')
 
-        # Check if user already exists
         if User.objects.filter(username=u_name).exists():
             return render(request, 'assignmenttracker/register.html', {'error': 'Student ID already registered.'})
 
         try:
-            # Create user
             user = User.objects.create_user(username=u_name, password=p_word)
             
-            # Optional: Store full name
             if " " in f_name:
                 user.first_name, user.last_name = f_name.split(" ", 1)
             else:
@@ -52,11 +47,8 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-# --- DASHBOARD & TASKS ---
-
 @login_required
 def dashboard(request):
-    # Fetch the data
     pending = Task.objects.filter(user=request.user, is_done=False).order_by('due_date')
     user_subjects = Subject.objects.filter(user=request.user)
     
@@ -68,8 +60,6 @@ def dashboard(request):
 @login_required
 def add_assignment(request):
     """This is now your UNIFIED page: Form + List"""
-    
-    # 1. Handle Form Submission (The logic from create_task)
     if request.method == 'POST':
         form = AssignmentForm(request.POST)
         if form.is_valid():
@@ -80,21 +70,18 @@ def add_assignment(request):
             return redirect('add_assignment')
     else:
         form = AssignmentForm()
-        # Ensure the dropdown only shows the user's subjects
         form.fields['subject'].queryset = Subject.objects.filter(user=request.user)
 
-    # 2. Fetch Data for the Ledger
     active_tasks = Task.objects.filter(user=request.user, is_done=False).order_by('due_date')
     done_tasks = Task.objects.filter(user=request.user, is_done=True).order_by('-due_date')[:5]
     
     return render(request, 'assignmenttracker/add_assignment.html', {
         'active_tasks': active_tasks,
         'done_tasks': done_tasks,
-        'form': form  # Pass the form to the template
+        'form': form 
     })
 
 
-# Matches path('mark-done/<int:task_id>/', views.mark_done...)
 @login_required
 def mark_done(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -102,7 +89,6 @@ def mark_done(request, task_id):
     task.save()
     return redirect('add_assignment')
 
-# Matches path('undo/<int:task_id>/', views.undo_task...)
 @login_required
 def undo_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
@@ -110,9 +96,6 @@ def undo_task(request, task_id):
     task.save()
     return redirect('add_assignment')
 
-# --- SUBJECTS ---
-
-# Matches path('subjects/', views.subject_list...)
 @login_required
 def subject_list(request):
     if request.method == 'POST':
@@ -131,7 +114,6 @@ def subject_list(request):
     subjects = Subject.objects.filter(user=request.user)
     return render(request, 'assignmenttracker/subjects.html', {'subjects': subjects})
 
-# Matches path('subjects/drop/<int:subject_id>/', views.drop_subject...)
 @login_required
 def drop_subject(request, subject_id):
     subject = get_object_or_404(Subject, id=subject_id, user=request.user)

@@ -126,7 +126,6 @@
 </div>
 
 <script>
-    // --- Day Toggle Logic ---
     let selectedDays = [];
     function toggleDay(day, el) {
         const i = selectedDays.indexOf(day);
@@ -144,14 +143,12 @@
         document.getElementById('daysInput').value = selectedDays.join('');
     }
 
-    // --- Color Selection Logic ---
     function selectColor(c, el) {
         document.getElementById('selectedColor').value = c;
         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-1', 'ring-offset-2', 'ring-green-900'));
         el.classList.add('ring-1', 'ring-offset-2', 'ring-green-900');
     }
 
-    // --- Time Constraint Logic (7AM-6PM & 0/30 Minutes Only) ---
     document.querySelectorAll('.time-limit').forEach(input => {
         input.addEventListener('change', function() {
             const time = this.value;
@@ -160,12 +157,8 @@
             const parts = time.split(':');
             const hour = parseInt(parts[0]);
             const minute = parseInt(parts[1]);
-
-            // Range validation (7:00 AM to 6:00 PM)
             const isTooEarly = hour < 7;
             const isTooLate = (hour > 15) || (hour === 15 && minute > 0);
-
-            // Increment validation (Must be :00 or :30)
             const isInvalidIncrement = (minute !== 0 && minute !== 30);
 
             if (isTooEarly || isTooLate) {

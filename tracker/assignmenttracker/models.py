@@ -2,11 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Subject(models.Model):
-    # Added user field to fix the FieldError
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     code = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
-    days = models.CharField(max_length=20)  # Stores M, T, W, TH, F
+    days = models.CharField(max_length=20)  
     start_time = models.TimeField()
     end_time = models.TimeField()
     color = models.CharField(max_length=20, default='bg-green-700')
@@ -15,7 +14,6 @@ class Subject(models.Model):
         return f"{self.code} - {self.name}"
 
 class Task(models.Model):
-    # Renamed from Assignment to Task to fix the ImportError
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(max_length=200)
