@@ -150,3 +150,10 @@ def schedule_view(request):
     }
     
     return render(request, 'assignmenttracker/schedule.html', context)
+
+def update_task_note(request, task_id):
+    if request.method == "POST":
+        task = Task.objects.get(id=task_id)
+        task.notes = request.POST.get('notes')
+        task.save()
+    return redirect('add_assignment') 

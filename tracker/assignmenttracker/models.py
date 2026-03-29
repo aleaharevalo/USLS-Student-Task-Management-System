@@ -20,6 +20,7 @@ class Task(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField(max_length=200)
     due_date = models.DateTimeField()
+    notes = models.TextField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
     
     CATEGORY_CHOICES = [

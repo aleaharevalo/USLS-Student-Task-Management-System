@@ -63,13 +63,13 @@
                                 <span class="text-[8px] font-black text-gray-400 bg-white px-1 border border-gray-100 rounded uppercase tracking-tighter">{{ subject.days }}</span>
                             </div>
                             <p class="text-[10px] font-bold text-gray-700 uppercase truncate mt-1">{{ subject.name }}</p>
-                            <p class="text-[9px] text-gray-400 font-black mt-1 uppercase italic">
+                            <p class="text-[9px] text-gray-400 font-black mt-1 uppercase">
                                 {{ subject.start_time|time:"g:i A" }} - {{ subject.end_time|time:"g:i A" }}
                             </p>
                         </div>
                         {% empty %}
                         <div class="text-center py-8">
-                            <p class="text-[10px] text-gray-400 font-black uppercase italic tracking-widest">No Enrolled Subjects</p>
+                            <p class="text-[10px] text-gray-400 font-black uppercase  tracking-widest">No Enrolled Subjects</p>
                             <a href="{% url 'subject_list' %}" class="text-[9px] text-[#006837] underline font-black uppercase mt-2 inline-block">Update Subjects</a>
                         </div>
                         {% endfor %}
@@ -94,6 +94,7 @@
                                 <th class="px-6 py-4 bg-gray-50/50">Course</th>
                                 <th class="px-6 py-4 bg-gray-50/50">Requirement</th>
                                 <th class="px-6 py-4 text-center bg-gray-50/50">Deadline</th>
+                                <th class="px-4 py-3">Note</th>
                                 <th class="px-6 py-4 text-right bg-gray-50/50">Action</th>
                             </tr>
                         </thead>
@@ -116,6 +117,16 @@
                                     <span class="text-[10px] font-bold text-gray-600 uppercase">{{ task.due_date|date:"M d" }}</span>
                                     <span class="text-[9px] block text-gray-400 font-black">{{ task.due_date|time:"g:i A" }}</span>
                                 </td>
+                                <td class="px-4 py-6 min-w-[150px]">
+                                        <form action="{% url 'update_task_note' task.id %}">
+                                            {% csrf_token %}
+                                            <input  
+                                                   name="notes" 
+                                                   value="{{ task.notes|default:'' }}" 
+                                                   placeholder="ADD NOTE..."
+                                                   class=" w-full bg-transparent border-none text-[10px] font-bold text-gray-500 uppercase focus:ring-0 placeholder:text-gray-200">
+                                        </form>
+                                    </td>
                                 <td class="px-6 py-4 text-right">
                                     <a href="{% url 'mark_done' task.id %}" class="bg-[#006837] text-white px-4 py-1.5 rounded text-[9px] font-black uppercase hover:bg-green-800 transition-all shadow-sm active:transform active:scale-95">
                                         Clear
