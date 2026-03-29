@@ -46,18 +46,19 @@
                                 <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Period </label>
                                 <input type="time" name="start_time" min="07:00" max="18:00" step="1800" class="time-limit w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold mb-1" required>
                                 <input type="time" name="end_time" min="07:00" max="18:00" step="1800" class="time-limit w-full p-1.5 bg-gray-50 border border-gray-200 rounded text-[10px] font-bold" required>
-                                <p class="text-[8px] text-gray-400 mt-1">*Only 00 and 30 minutes</p>
+                                <p class="text-[8px] text-gray-400 mt-1">*7am to 5pm only</p>
                             </div>
                         </div>
                         <div>
                             <label class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1 tracking-widest">Legend Color</label>
                             <input type="hidden" name="color" id="selectedColor" value="bg-green-700">
                             <div class="flex flex-wrap gap-2 p-2.5 bg-gray-50 rounded border border-gray-100">
-                                <button type="button" onclick="selectColor('bg-green-700', this)" class="color-btn w-4 h-4 rounded-full bg-green-700 ring-offset-2 ring-1 ring-green-900"></button>
-                                <button type="button" onclick="selectColor('bg-blue-600', this)" class="color-btn w-4 h-4 rounded-full bg-blue-600"></button>
+                                <button type="button" onclick="selectColor('bg-green-100', this)" class="color-btn w-4 h-4 rounded-full bg-green-700 ring-offset-2 ring-1 ring-green-900"></button>
+                                <button type="button" onclick="selectColor('bg-orange-500', this)" class="color-btn w-4 h-4 rounded-full bg-orange-500"></button>
+                                <button type="button" onclick="selectColor('bg-red-100', this)" class="color-btn w-4 h-4 rounded-full bg-red-100"></button>
                                 <button type="button" onclick="selectColor('bg-red-600', this)" class="color-btn w-4 h-4 rounded-full bg-red-600"></button>
                                 <button type="button" onclick="selectColor('bg-purple-600', this)" class="color-btn w-4 h-4 rounded-full bg-purple-600"></button>
-                                <button type="button" onclick="selectColor('bg-orange-500', this)" class="color-btn w-4 h-4 rounded-full bg-orange-500"></button>
+                                <button type="button" onclick="selectColor('bg-blue-600', this)" class="color-btn w-4 h-4 rounded-full bg-blue-600"></button>
                             </div>
                         </div>
                         <button type="submit" class="w-full py-3 bg-[#006837] text-white font-black uppercase text-[10px] rounded shadow-sm hover:bg-green-800 transition-all tracking-widest">

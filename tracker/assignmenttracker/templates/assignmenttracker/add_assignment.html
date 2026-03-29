@@ -80,7 +80,7 @@
                                                 {{ task.subject.code }}
                                             </span>
                                             {% if task.is_major %}
-                                            <span class="text-[7px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-black uppercase italic tracking-tighter border border-red-200">
+                                            <span class="text-[7px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-black uppercase tracking-tighter border border-red-200">
                                                 Important
                                             </span>
                                             {% endif %}
@@ -100,7 +100,7 @@
                                         <span class="text-xs font-black text-gray-700 uppercase block leading-none">
                                             {{ task.due_date|date:"M d" }}
                                         </span>
-                                        <span class="text-[9px] text-gray-400 font-black italic mt-1 block">
+                                        <span class="text-[9px] text-gray-400 font-black  mt-1 block">
                                             {{ task.due_date|time:"g:i A" }}
                                         </span>
                                     </td>
@@ -113,7 +113,7 @@
                                                    value="{{ task.notes|default:'' }}" 
                                                    placeholder="ADD NOTE..."
                                                    onblur="if(this.value != '{{ task.notes|default:'' }}') this.form.submit()"
-                                                   class="note-input w-full bg-transparent border-none text-[10px] font-bold text-gray-500 uppercase focus:ring-0 placeholder:text-gray-200 italic">
+                                                   class="note-input w-full bg-transparent border-none text-[10px] font-bold text-gray-500 uppercase focus:ring-0 placeholder:text-gray-200 ">
                                         </form>
                                     </td>
 
@@ -127,7 +127,7 @@
                                 {% empty %}
                                 <tr>
                                     <td colspan="5" class="text-center py-20">
-                                        <p class="text-gray-300 font-black uppercase text-xs italic tracking-[0.3em]">No Pending Requirements</p>
+                                        <p class="text-gray-300 font-black uppercase text-xs  tracking-[0.3em]">No Pending Requirements</p>
                                     </td>
                                 </tr>
                                 {% endfor %}
