@@ -7,7 +7,7 @@
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-end border-b-2 border-[#006837] pb-4 mb-8">
             <div>
-                <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter">Subject Enrollment</h2>
+                <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter">MY SUBJECTS</h2>
             </div>
             <div class="text-right hidden md:block">
                 <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Academic Year 2025-2026 | <span class="text-gray-800">2nd Semester</span></p>
@@ -24,7 +24,7 @@
                         {% csrf_token %}
                         <div>
                             <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Course Code</label>
-                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" placeholder="e.g. IT-201" required>
+                            <input type="text" name="code" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded text-xs font-bold text-gray-700 outline-none focus:border-green-600 transition-colors uppercase" required>
                         </div>
                         <div>
                             <label class="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1 tracking-widest">Subject Title</label>
