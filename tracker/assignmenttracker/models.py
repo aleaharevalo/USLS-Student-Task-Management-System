@@ -32,3 +32,14 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+class Reminder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    date = models.DateField()
+    description = models.TextField(blank=True)
+
+    def __cl__str__(self):
+        return self.title
+    
+

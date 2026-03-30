@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-6xl mx-auto p-6">
+    <div class="bg-white rounded shadow-sm border border-gray-200 p-8">
+        <h2 class="text-2xl font-black text-[#006837] uppercase tracking-tighter mb-6">Academic Calendar</h2>
+        
+        <div id='calendar'></div>
+    </div>
+</div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek'
+      },
+      events: {{ events|safe }}, 
+      eventClick: function(info) {
+        if (info.event.url) {
+          window.open(info.event.url);
+          info.jsEvent.preventDefault(); 
+        }
+      }
+    });
+    calendar.render();
+  });
+</script>
+
+<style>
+    .fc-header-toolbar { text-transform: uppercase; font-size: 10px; font-weight: 900; }
+    .fc-col-header-cell { background: #f9fafb; padding: 10px 0; font-size: 10px; }
+    .fc-event { cursor: pointer; padding: 2px 4px; font-size: 10px; font-weight: 700; border: none; }
+</style>
+{% endblock %}

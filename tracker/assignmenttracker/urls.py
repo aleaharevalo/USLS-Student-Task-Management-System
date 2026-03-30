@@ -5,6 +5,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('', views.dashboard, name='dashboard'),
+    path('calendar/', views.calendar_view, name='calendar_view'),
     path('add/', views.add_assignment, name='add_assignment'),
     path('undo/<int:task_id>/', views.undo_task, name='undo_task'),
     path('mark-done/<int:task_id>/', views.mark_done, name='mark_done'),

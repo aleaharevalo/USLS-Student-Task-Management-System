@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .models import Subject, Task
+from .models import Subject, Task, Reminder
 from .forms import AssignmentForm
 from django.contrib.auth.models import User
 
@@ -179,3 +179,30 @@ def update_task_note(request, task_id):
         task.notes = request.POST.get('notes')
         task.save()
     return redirect('dashboard')
+
+@login_required
+def calendar_view(request):
+    tasks = Task.objects.filter(user=request.user)
+    reminders = Reminder.objects.filter(user=request.user)
+    
+    events = []
+
+    for task in tasks:
+        events.append({
+            'title': f"Task: {task.title}",
+            'start': task.due_date.strftime("%Y-%m-%d"),
+            'color': '#006837', # Dark Green
+            'url': f'/add/', # Link back to task page
+        })
+        
+    for rem in reminders:
+        events.append({
+            'title': rem.title,
+            'start': rem.date.strftime("%Y-%m-%d"),
+            'color': '#3b82f6', # Blue
+        })
+
+    return render(request, 'assignmenttracker/calendar.html', {
+        'events': events
+    })
+

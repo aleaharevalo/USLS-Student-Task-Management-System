@@ -33,6 +33,7 @@
                     <a href="{% url 'subject_list' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'subject_list' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Subjects</a>
                     <a href="{% url 'schedule' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'schedule' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Schedule</a>
                     <a href="{% url 'add_assignment' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'add_assignment' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Tasks</a>
+                     <a href="{% url 'calendar_view' %}" class="px-3 py-1 {% if request.resolver_match.url_name == 'calendar_view' %}bg-green-800 text-white{% else %}hover:bg-green-700 hover:text-white text-green-900{% endif %} rounded transition-colors">Calendar</a>
                     
                 </div>
 
