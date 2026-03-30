@@ -101,7 +101,7 @@
     </div>
     
     {% if progress_percentage == 100 %}
-    <p class="text-[9px] text-[#006837] font-black uppercase mt-3 italic animate-bounce">
+    <p class="text-[9px] text-[#006837] font-black uppercase mt-3  animate-bounce">
         ✨ Outstanding! You are all caught up.
     </p>
     {% endif %}
@@ -135,7 +135,7 @@
                                 <td class="px-6 py-4">
                                     <span class="text-xs font-bold text-gray-800 uppercase tracking-tight block">{{ task.title }}</span>
                                     {% if task.is_major %}
-                                    <span class="text-[8px] font-black text-red-600 uppercase tracking-tighter italic inline-flex items-center gap-1">
+                                    <span class="text-[8px] font-black text-red-600 uppercase tracking-tighter inline-flex items-center gap-1">
                                         <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
                                        Important
                                     </span>
