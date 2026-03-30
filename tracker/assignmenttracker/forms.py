@@ -9,7 +9,6 @@ class AssignmentForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 text-lg font-bold placeholder-gray-300',
-                'placeholder': 'e.g., Final Capstone Documentation'
             }),
             'subject': forms.Select(attrs={
                 'class': 'w-full border-b-2 border-gray-200 focus:border-green-600 outline-none py-2 font-bold bg-white'
