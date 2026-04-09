@@ -115,7 +115,7 @@ def mark_done(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.is_done = True
     task.save()
-    return redirect('dashboard') 
+    return redirect('add_assignment') 
 
 @login_required
 def undo_task(request, task_id):
@@ -178,7 +178,7 @@ def update_task_note(request, task_id):
         task = get_object_or_404(Task, id=task_id, user=request.user)
         task.notes = request.POST.get('notes')
         task.save()
-    return redirect('dashboard')
+    return redirect('add_assignment')
 
 @login_required
 def calendar_view(request):
